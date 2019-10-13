@@ -1,0 +1,47 @@
+name: DemoApp
+options:
+  bundleIdPrefix: tech.oakery
+  useTabs: false
+  indentWidth: 2
+  tabWidth: 2
+  developmentLanguage: en
+  minimumXcodeGenVersion: 2.6.0
+  xcodeVersion: 10.3
+  transitivelyLinkDependencies: true
+  groupSortPosition: top
+  deploymentTarget:
+    iOS: 11.0
+targets:
+  DemoApp:
+    type: application
+    platform: iOS
+    attributes:
+      ProvisioninStyle: Manual
+    sources:
+      - path: DemoApp
+        name: DemoApp
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - Tests
+        - UITests
+    settings:
+      INFOPLIST_FILE: DemoApp/Info.plist
+      TARGETED_DEVICE_FAMILY: 1
+      PRODUCT_BUNDLE_IDENTIFIER: tech.oakery.demo-app
+  Tests:
+    dependencies:
+      - target: DemoApp
+    type: bundle.unit-test
+    platform: iOS
+    sources: Tests
+    scheme:
+      gatherCoverageData: true
+  UITests:
+    dependencies:
+      - target: DemoApp
+    type: bundle.ui-testing
+    platform: iOS
+    sources: UITests
+    scheme:
+      gatherCoverageData: true
