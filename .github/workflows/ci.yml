@@ -17,20 +17,14 @@ jobs:
      - uses: actions/checkout@v1
      - name: Instal xcodegen
        run: brew install xcodegen
-     - name: Generate XCode project
-       run: xcodegen
      - name: Run tests
        env:
          destination: ${{ matrix.destination }}
        run: |
-         xcodebuild clean test -sdk iphoneos -destination "${destination}" -project DemoApp.xcodeproj -scheme DemoApp -allowProvisioningUpdates -configuration Debug -derivedDataPath build | xcpretty && exit ${PIPESTATUS[0]}
+         make test destination="${destination}"
      - name: Send coverage data
        if: success()
        env:
          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
        run: |
-         xcrun xccov view --json `find build/Logs/Test/ -name *.xccovreport` > cov.json
-         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-darwin-amd64 > ./cc-test-reporter
-         chmod +x ./cc-test-reporter
-         ./cc-test-reporter format-coverage -t xccov cov.json
-         ./cc-test-reporter upload-coverage
+         make send-coverage-report-to-codeclimate
