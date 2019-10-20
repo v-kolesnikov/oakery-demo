@@ -27,4 +27,4 @@ jobs:
        env:
          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
        run: |
-         make send-coverage-report-to-codeclimate
+         make send-coverage-report-to-codeclimate GIT_BRANCH=$GITHUB_REF GIT_COMMIT_SHA=$GITHUB_SHA
