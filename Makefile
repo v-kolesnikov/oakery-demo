@@ -4,6 +4,7 @@ xcodegen:
 	xcodegen
 
 test: xcodegen
+	set -o pipefail && \
 	xcodebuild clean test \
 	  -sdk iphoneos \
 	  -destination "$(destination)" \
